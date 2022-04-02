@@ -35,44 +35,9 @@
 import { EnhancedTable } from 'tdesign-vue';
 
 function getData(currentPage = 1) {
-  const data = [];
+  const data = [{}];
   const pageInfo = `第 ${currentPage} 页`;
-  for (let i = 0; i < 5; i++) {
-    const obj = {
-      id: i,
-      key: `我是 ${i}_${currentPage} 号（${pageInfo}）`,
-      platform: i % 2 === 0 ? '共有' : '私有',
-      type: ['String', 'Number', 'Array', 'Object'][i % 4],
-      default: ['-', '0', '[]', '{}'][i % 4],
-      detail: {
-        position: `读取 ${i} 个数据的嵌套信息值`,
-      },
-      needed: i % 4 === 0 ? '是' : '否',
-      description: '数据源',
-    };
-    // 第一行不设置子节点
-    obj.list =
-      i === 0
-        ? []
-        : new Array(2).fill(null).map((t, j) => {
-            const secondIndex = 100 * j + (i + 1) * 10;
-            const secondObj = {
-              ...obj,
-              id: secondIndex,
-              key: `<div>我是 ${secondIndex}_${currentPage} 号（${pageInfo}）</div>`,
-            };
-            secondObj.list = new Array(3).fill(null).map((m, n) => {
-              const thirdIndex = secondIndex * 1000 + 100 * m + (n + 1) * 10;
-              return {
-                ...obj,
-                id: thirdIndex,
-                key: `我是 ${thirdIndex}_${currentPage} 号（${pageInfo}）`,
-              };
-            });
-            return secondObj;
-          });
-    data.push(obj);
-  }
+
   return data;
 }
 
@@ -95,50 +60,79 @@ export default {
       },
       columns: [
         {
-          colKey: 'id',
-          title: '编号',
-          ellipsis: true,
-        },
-        {
           width: 220,
-          colKey: 'key',
-          title: '名称',
+          colKey: 'name',
+          title: '模块名称',
           ellipsis: true,
+          cell: (h, { row }) => (
+            <td class="func-name" style="width: 400px; ">
+              <span style="margin-left: 30px;"></span>
+              <span
+                class="tree-icon fa fa-cube123"
+                style="margin: 0px 5px;margin-left: 30px;"
+              ></span>
+              <img src="vteam/biz/iteration/img/mods.svg" class="icon-info" />
+              <div class="func-name-title">A1</div>
+              <span class="oper-container" style="display: none;">
+                <i
+                  class="fa fa-plus oper-item"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title=""
+                  data-container="body"
+                  data-original-title="添加同级模块"
+                ></i>
+                <i
+                  class="fa fa-plus-square-o oper-item"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title=""
+                  data-container="body"
+                  data-original-title="添加子模块"
+                ></i>
+                <i
+                  class="fa fa-edit oper-item"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title=""
+                  data-container="body"
+                  data-original-title="编辑"
+                ></i>
+                <i
+                  class="fa fa-arrows-v oper-item"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title=""
+                  data-container="body"
+                  data-original-title="移动到..."
+                ></i>
+                <i
+                  class="fa fa-remove oper-item"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title=""
+                  data-container="body"
+                  data-original-title="删除"
+                ></i>
+              </span>
+            </td>
+          ),
         },
         {
-          colKey: 'platform',
-          title: '平台',
+          colKey: 'isOutputTitle',
+          title: '特性',
         },
         {
-          colKey: 'type',
-          title: '类型',
+          colKey: 'totalPlanDate',
+          title: '总计划起止',
         },
         {
-          colKey: 'operate',
+          colKey: 'totalMemberName',
           width: 280,
-          title: '操作',
+          title: '总负责人',
           align: 'center',
           // 增、删、改、查 等操作
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          cell: (h, { row }) => (
-            <div class="tdesign-table-demo__table-operations">
-              <t-button variant="text" onClick={() => this.appendTo(row)}>
-                插入
-              </t-button>
-              <t-button variant="text" onClick={() => this.onEditClick(row)}>
-                更新
-              </t-button>
-              <t-button variant="text" onClick={() => this.onLookUp(row)}>
-                查看
-              </t-button>
-              <t-popconfirm
-                content="确认删除吗"
-                onConfirm={() => this.onDeleteConfirm(row)}
-              >
-                <t-button variant="text">删除</t-button>
-              </t-popconfirm>
-            </div>
-          ),
         },
       ],
     };
