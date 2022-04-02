@@ -21,15 +21,34 @@ export default new Vuex.Store({
       state.message = message;
     },
     changeAsyncMessageValue(state, message) {
-      setTimeout(() => {
-        state.message = message;
-      }, 2000);
+      return new Promise((resolve, rejuect) => {
+        try {
+          setTimeout(() => {
+            state.message = message;
+            resolve(state.message);
+          }, 2000);
+        } catch {
+          rejuect();
+        }
+      });
     },
   },
 
   actions: {
     changeMessageValue(context, message) {
       context.commit('changeMessageValue', message);
+    },
+    changeAsyncMessageValue(context, message) {
+      return new Promise((resolve, rejuect) => {
+        try {
+          setTimeout(() => {
+            context.commit('changeMessageValue', message);
+            resolve(context.state.message);
+          }, 2000);
+        } catch {
+          rejuect();
+        }
+      });
     },
   },
 });

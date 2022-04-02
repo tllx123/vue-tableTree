@@ -40,23 +40,37 @@
 export default {
   data() {
     return {
-      stateData: '',
+      // stateData: '',
       updateState: '',
     };
   },
 
-  mounted() {
-    this.stateData = this.$store.getters.getMessage;
+  computed: {
+    stateData: function () {
+      return this.$store.getters.getMessage;
+    },
   },
 
   methods: {
     // mutation
     Update() {
       if (this.updateState != '') {
-        // this.$store.commit('changeMessageValue', this.updateState)
-        this.$store.dispatch('changeMessageValue', this.updateState);
-        this.stateData = this.updateState;
-        alert('state updated');
+        // this.$store
+        //   .commit('changeAsyncMessageValue', this.updateState)
+        //   .then((message) => {
+        //     console.log(message);
+        //     console.log(this.stateData);
+        //   });
+
+        this.$store
+          .dispatch('changeAsyncMessageValue', this.updateState)
+          .then((message) => {
+            console.log(message);
+            console.log(this.stateData);
+          });
+
+        // this.stateData = this.updateState;
+        // alert('state updated');
       } else {
         alert('Emtyp form field');
       }
