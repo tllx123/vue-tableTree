@@ -1,35 +1,13 @@
 import Vue from 'vue';
-import TDesign from 'tdesign-vue';
+import App from './App.vue';
 
-// 引入组件库全局样式资源
-import 'tdesign-vue/es/style/index.css';
-import './index.css';
-import Demo from './demo.vue';
-import Vuex from 'vuex';
+import store from './store';
+import router from './router';
 
-const state = {
-  count: 0,
-};
-
-const mutations = {
-  add(state) {
-    state.count++;
-  },
-  reduce(state) {
-    state.count--;
-  },
-};
-
-VUe.use(
-  new Vuex.Store({
-    state,
-    mutations,
-  })
-);
-
-Vue.use(TDesign);
 Vue.config.productionTip = false;
 
 new Vue({
-  render: (h) => h(Demo),
+  render: (h) => h(App),
+  store,
+  router,
 }).$mount('#app');
